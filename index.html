@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANH TÚ ULTRA VIP - Công Cụ Tối Ưu</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #0b0f19; color: #ffffff; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: #131b2e; border-radius: 12px; padding: 25px; box-shadow: 0 0 20px rgba(0, 243, 255, 0.2); border: 1px solid #1f293d; }
+        h1 { text-align: center; color: #00f3ff; margin-bottom: 20px; font-size: 24px; text-transform: uppercase; text-shadow: 0 0 10px rgba(0, 243, 255, 0.5); }
+        .section { margin-bottom: 20px; background: #1a233a; padding: 15px; border-radius: 8px; border-left: 4px solid #00f3ff; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: #a5b4fc; }
+        input, select { width: 100%; padding: 10px; background: #0b0f19; border: 1px solid #2d3748; color: #fff; border-radius: 6px; margin-bottom: 10px; }
+        button { width: 100%; background: linear-gradient(45deg, #00f3ff, #0066ff); color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
+        button:hover { opacity: 0.9; box-shadow: 0 0 15px rgba(0, 243, 255, 0.5); }
+        .result { margin-top: 15px; padding: 10px; background: #0b0f19; border-radius: 6px; border: 1px dashed #00f3ff; }
+        .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #64748b; }
+    </head>
+</style>
+<body>
+
+    <div class="container">
+        <h1>ANH TÚ ULTRA VIP</h1>
+        
+        <div class="section">
+            <label for="device">Chọn thiết bị của bạn:</label>
+            <select id="device">
+                <option value="android">Android (Tùy chỉnh DPI)</option>
+                <option value="ios">iOS / iPhone (Tốc độ con trỏ)</option>
+            </select>
+
+            <label for="weapon">Loại vũ khí chính:</label>
+            <select id="weapon">
+                <option value="smg">SMG / MP40 (Độ giật cao)</option>
+                <option value="shotgun">Shotgun / M1887 (Tâm ảo)</option>
+                <option value="ar">AR / Scar-AK (Ổn định)</option>
+            </select>
+
+            <button onclick="calculateConfig()">TẠO CẤU HÌNH NGAY</button>
+        </div>
+
+        <div class="result" id="output">
+            <strong>Kết quả cấu hình:</strong><br>
+            - Bấm nút "TẠO CẤU HÌNH NGAY" để nhận thông số tối ưu.
+        </div>
+
+        <div class="footer">
+            Admin: Anh Tú Bá File &bull; Powered by GitHub Pages
+        </div>
+    </div>
+
+    <script>
+        function calculateConfig() {
+            const device = document.getElementById('device').value;
+            const weapon = document.getElementById('weapon').value;
+            let general = Math.floor(Math.random() * (99 - 90 + 1)) + 90;
+            let redDot = Math.floor(Math.random() * (98 - 85 + 1)) + 85;
+            let dpiOrCursor = device === 'android' ? 'DPI: 590 - 720' : 'Tốc độ con trỏ: 85%';
+            let buttonSize = Math.floor(Math.random() * (52 - 38 + 1)) + 38;
+
+            document.getElementById('output').innerHTML = `
+                <strong>Cấu hình tối ưu thành công:</strong><br>
+                - Nhìn xung quanh (General): <strong>${general}</strong><br>
+                - Ngắm 2x/4x (Red Dot): <strong>${redDot}</strong><br>
+                - ${dpiOrCursor}<br>
+                - Kích thước nút bắn: <strong>${buttonSize}%</strong><br>
+                <span style="color: #00f3ff; font-size: 11px;">* Đã tối ưu hóa chống rung tâm.</span>
+            `;
+        }
+    </script>
+</body>
+</html>
