@@ -1,17 +1,152 @@
 <!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"><title>ABHU</title></head>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>🚀 ANH TÚ VIPPRO</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;
+min-height:100vh;padding:20px;display:flex;align-items:center;justify-content:center}
+.box{background:#1e293b;padding:32px 24px;border-radius:16px;
+max-width:440px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,.5);text-align:center}
+h1{color:#38bdf8;font-size:24px;margin-bottom:6px}
+.sub{color:#94a3b8;font-size:13px;margin-bottom:24px}
+.tabs{display:flex;gap:8px;margin-bottom:20px;background:#0f172a;padding:6px;border-radius:12px}
+.tab{flex:1;padding:10px;border:0;background:transparent;color:#94a3b8;
+border-radius:8px;font-size:14px;cursor:pointer;font-weight:500}
+.tab.active{background:#38bdf8;color:#0f172a;font-weight:bold}
+.panel{display:none}
+.panel.active{display:block}
+button.action{background:#38bdf8;color:#0f172a;border:0;padding:14px 28px;
+border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;width:100%;margin-top:8px}
+button.action:hover{background:#4ade80}
+input{width:100%;padding:14px;border-radius:10px;border:1px solid #334155;
+background:#0f172a;color:#e2e8f0;font-size:16px;margin-bottom:12px}
+.key{background:#0f172a;padding:14px;border-radius:8px;margin-top:16px;
+font-family:monospace;color:#4ade80;font-size:16px;word-break:break-all;
+border:2px solid #4ade80}
+.hwid{background:#0f172a;padding:10px;border-radius:8px;margin:12px 0;
+font-family:monospace;color:#fbbf24;font-size:11px;word-break:break-all}
+.msg{margin-top:14px;font-size:14px;padding:12px;border-radius:8px}
+.ok{background:#064e3b;color:#4ade80}
+.err{background:#7f1d1d;color:#fca5a5}
+.info{color:#94a3b8;font-size:12px;margin-top:14px}
+code{background:#0f172a;padding:2px 6px;border-radius:4px;color:#4ade80;font-family:monospace}
+</style>
+</head>
 <body>
+<div class="box">
+  <h1>🚀 ANH TÚ VIPPRO</h1>
+  <p class="sub">Endpoint: <code>/_abhu/</code></p>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('home',this)">🏠 Trang</button>
+    <button class="tab" onclick="switchTab('key',this)">🎁 Key</button>
+    <button class="tab" onclick="switchTab('verify',this)">🔑 Verify</button>
+  </div>
+
+  <!-- TAB 1: TRANG CHỦ -->
+  <div id="home" class="panel active">
+    <p class="info">Server mod menu ANH TÚ VIPPRO</p>
+    <button class="action" onclick="showJson()">📡 Xem JSON</button>
+    <div id="jsonOut"></div>
+  </div>
+
+  <!-- TAB 2: LẤY KEY -->
+  <div id="key" class="panel">
+    <p class="info">Key miễn phí của bạn</p>
+    <button class="action" onclick="showKey()">🎁 Nhận Key</button>
+    <div id="keyOut"></div>
+  </div>
+
+  <!-- TAB 3: VERIFY -->
+  <div id="verify" class="panel">
+    <div class="hwid" id="hwidBox">HWID: (chưa có)</div>
+    <input id="keyInput" placeholder="Nhập key...">
+    <button class="action" onclick="verify()">🔑 Xác Thực</button>
+    <div id="verifyOut"></div>
+  </div>
+</div>
+
 <script>
-  const KEY = "DltAdb2026k9QzLm4Xw7";
+// ============================================
+// CẤU HÌNH
+// ============================================
+const KEY = "ANH TÚ VIPPRO";
+const OWNER = "ANH TÚ VIPPRO";
+const BASE = "https://anh-tuaimbot.github.io/jssjsk";
+
+// ============================================
+// TAB SWITCH
+// ============================================
+function switchTab(id, btn){
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ============================================
+// TAB 1: JSON
+// ============================================
+function showJson(){
   const data = {
-    abhotupdate_cdn_url:
-      "https://anh-tuaimbot.github.io/jssjsk/_abhu/?t=" + KEY + "&p=/",
+    abhotupdate_cdn_url: BASE + "/_abhu/?t=" + encodeURIComponent(KEY) + "&p=/",
     status: "ok",
     key: KEY,
+    owner: OWNER,
     time: new Date().toISOString()
   };
-  document.body.innerText = JSON.stringify(data, null, 2);
+  document.getElementById('jsonOut').innerHTML =
+    '<div class="key" style="text-align:left;font-size:12px">' +
+    JSON.stringify(data, null, 2).replace(/</g,'&lt;') + '</div>';
+}
+
+// ============================================
+// TAB 2: KEY
+// ============================================
+function showKey(){
+  document.getElementById('keyOut').innerHTML =
+    '<div class="key">' + KEY + '</div>' +
+    '<p class="info">✅ Đã copy vào clipboard</p>';
+  navigator.clipboard.writeText(KEY).catch(()=>{});
+}
+
+// ============================================
+// TAB 3: VERIFY
+// ============================================
+const params = new URLSearchParams(location.search);
+const HWID = params.get('hwid') || '';
+document.getElementById('hwidBox').innerText = 'HWID: ' + (HWID || '(chưa có)');
+
+function verify(){
+  const k = document.getElementById('keyInput').value.trim();
+  const el = document.getElementById('verifyOut');
+  if(!k){ el.innerHTML = '<div class="msg err">Nhập key đi</div>'; return; }
+  if(k.toUpperCase() === KEY.toUpperCase()){
+    el.innerHTML = '<div class="msg ok">✅ Key hợp lệ!<br>Chào mừng ' + OWNER + ' 🎉</div>';
+  } else {
+    el.innerHTML = '<div class="msg err">❌ Key không đúng</div>';
+  }
+}
+
+// ============================================
+// AUTO: Nếu URL có ?t=KEY → trả JSON luôn (giả lập _abhu endpoint)
+// ============================================
+if (location.search.includes('t=') && !location.hash) {
+  const t = params.get('t') || '';
+  const p = params.get('p') || '/';
+  document.body.innerHTML = '<pre style="color:#4ade80;font-family:monospace;padding:20px">' +
+    JSON.stringify({
+      abhotupdate_cdn_url: BASE + "/_abhu/?t=" + encodeURIComponent(t) + "&p=" + p,
+      status: t ? "ok" : "missing_key",
+      key: t,
+      path: p,
+      owner: OWNER,
+      time: new Date().toISOString()
+    }, null, 2) + '</pre>';
+}
 </script>
 </body>
 </html>
